@@ -30,27 +30,12 @@ public class PageRankReduce extends Reducer<LongWritable, Text, LongWritable, Te
 		for (Text value: values){
 			String[] strArray = value.toString().split("#");
 
-			//Check for dangling nodes or empty string array
-			if (strArray.length > 0){
+			if (strArray.length == 1){
 			
-				try{
-					//Add to the partial rank value
-					double partialRank = Double.parseDouble(strArray[0]);
-					sumOfRankValues += partialRank;
-				}catch (NumberFormatException e){
-					//Weird error parsing string?
-					System.out.println("Error parsing string: " + strArray[0]);
-				}
-				
-				//Check to see if there are any outgoing urls
-				if (strArray.length > 1){
-
-					//Iterate through outgoing links and append them to the target urls list
-					for (int i = 1; i < strArray.length; i++){
-						targetUrlsList += "#" + strArray[i];
-					}
-
-				}
+				double partialRank = Double.parseDouble(strArray[0].split("\t")[1]);
+				sumOfRankValues += partialRank;
+			}else{
+				targetUrlsList = value.toString();
 
 			}
 

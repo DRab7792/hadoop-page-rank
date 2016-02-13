@@ -37,16 +37,14 @@ public class PageRankMap extends Mapper<LongWritable, Text, LongWritable, Text> 
 			} else {
 				/*Write your code here*/
 				//Calculate the partial rank here
-				double rankPerOutLink = rrd.rankValue / (double)rrd.targetUrlsList.size();
+				double rankPerUrl = rrd.rankValue / (double)rrd.targetUrlsList.size();
+				Text outVal = new Text(String.valueOf(rankPerUrl));
 				//Iterate through outgoing links
-				for (Integer cur : rrd.targetUrlsList){
-					long curUrl = cur;
-					LongWritable outUrl = new LongWritable(curUrl);
-					Text outVal = new Text(String.valueOf(rankPerOutLink));
+				for (int url : rrd.targetUrlsList){
 					//Write key value pair for each outgoing link with previously calculated partial rank
-					context.write(outUrl, outVal);
+					context.write(new LongWritable(url), outVal);
 					//Append the outgoing link to the current url value to be written
-					sb.append("#" + curUrl);
+					sb.append("#" + String.valueOf(url));
 				}
 				//Move context write statement inside if to account for the multiple scenarios
 				context.write(new LongWritable(rrd.sourceUrl), new Text(sb.toString()));	
