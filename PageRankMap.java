@@ -46,9 +46,11 @@ public class PageRankMap extends Mapper<LongWritable, Text, LongWritable, Text> 
 					//Append the outgoing link to the current url value to be written
 					sb.append("#" + String.valueOf(url));
 				}
-				//Move context write statement inside if to account for the multiple scenarios
-				context.write(new LongWritable(rrd.sourceUrl), new Text(sb.toString()));	
+				//Move context write statement inside if to account for the multiple scenarios	
 			} 
+			if (rrd.targetUrlsList.size() > 0){
+				context.write(new LongWritable(rrd.sourceUrl), new Text(sb.toString()));
+			}
 		} // end map
 
 }

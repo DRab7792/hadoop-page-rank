@@ -32,7 +32,7 @@ public class PageRankReduce extends Reducer<LongWritable, Text, LongWritable, Te
 
 			if (strArray.length == 1){
 			
-				double partialRank = Double.parseDouble(strArray[0].split("\t")[1]);
+				double partialRank = Double.parseDouble(strArray[0]);
 				sumOfRankValues += partialRank;
 			}else{
 				targetUrlsList = value.toString();
